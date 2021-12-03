@@ -320,9 +320,9 @@ fi
 # /usr/bin/keychain --clear $HOME/.ssh/id_ed25519
 # source $HOME/.keychain/$HOSTNAME-sh
 
-# ##& https://stackoverflow.com/questions/63793836/unable-to-commit-to-git-with-the-gpg-key-error
-# GPG_TTY=$(tty)
-# export GPG_TTY
+##& https://stackoverflow.com/questions/63793836/unable-to-commit-to-git-with-the-gpg-key-error
+GPG_TTY=$(tty)
+export GPG_TTY
 
 ##& https://github.com/ahmetb/kubectl-aliases
 [ -f ~/.kubectl_aliases ] && source \
@@ -354,9 +354,19 @@ alias util='kubectl get nodes --no-headers | awk '\''{print $1}'\'' | xargs -I {
 # k = kubectl  https://kubernetes.io/docs/reference/kubectl/cheatsheet/
 alias k=kubectl
 complete -F __start_kubectl k
+
+#& add sops to PATH (if was installed via brew; check with 'whereis sops')
+export PATH="/home/linuxbrew/.linuxbrew/bin/sops:$PATH"
 ```
+### Also install extension for vscode:
+
+signageos.signageos-vscode-sops
+
+*this will allow decrypting/encrypting secrets on the spot. Needs SOPS to be in the path though!*
 
 ## Flux install
 
 Follow the other readme.md
+
+## Continue reading in the README-ext02.md !
 
