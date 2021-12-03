@@ -232,7 +232,7 @@ cat << EOF > $var
                 search: []
             match:
                 #TODO: upate this for the active NIC of the host
-                macaddress: f8:bc:12:a3:23:39
+                macaddress: b0:83:fe:ba:ac:d8
             set-name: eth0
         # eth1:
             # dhcp4: true
@@ -247,10 +247,11 @@ Apply this config and reboot
 netplan apply && reboot
 ```
 
-After the system restarted, you should be able to log in
+After the system restarted, you should be able to log in with the new IP remotely.
 
-Set the IP addresses up accordingly
 ## Clone the repository and adjust
+
+[repo - as of 2021-12-03](https://github.com/fabricesemti80/k8s-cluster-mk4)
 
 This is the repository where the K8S code lives
 
@@ -259,13 +260,6 @@ This is the repository where the K8S code lives
 └─$ git clone git@github.com:fabricesemti80/k8s-cluster-mk4.git
 ```
 
-Adjust the Ansible inventory files found in *provision/ansible/inventory*
+### Prepare pre-commit
 
-
-
-## Prepare the k8s hosts
-
-- at this point the hosts should have no kubernetes installed
-
-- we should clean up any previous rook-installation doing this:
-
+Refer to the README.md  for this.
