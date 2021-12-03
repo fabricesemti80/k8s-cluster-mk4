@@ -26,9 +26,9 @@ sudo apt-get install git -y && git --version
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 # Install Homebrew's dependencies if you have sudo access:
-    sudo apt-get install build-essential
-  For more information, see:
-    https://docs.brew.sh/Homebrew-on-Linux
+    sudo apt-get install build-essential -y
+    #For more information, see:
+    #https://docs.brew.sh/Homebrew-on-Linux
 
 # We recommend that you install GCC:
     brew install gcc
@@ -36,7 +36,7 @@ sudo apt-get install git -y && git --version
 # Run brew help to get started
 
 # Further documentation:
-    https://docs.brew.sh
+    # https://docs.brew.sh
 
 ```
 
@@ -49,7 +49,7 @@ Copy the SSH key(s) to the .ssh folder
 
 ```sh
 
-mkdir ssh
+mkdir .ssh
 
 # In this case I am copying from the Windows host machine
 
@@ -58,6 +58,7 @@ mkdir ssh
 
 ┌──(fabrice㉿DESKTOP-FS)-[~]
 └─$ cp /mnt/c/Users/emilf/.ssh/id_ed25519.pub .ssh/id_ed25519.pub
+
 
 ┌──(fabrice㉿DESKTOP-FS)-[~]
 └─$ ls -la .ssh/
@@ -262,4 +263,8 @@ This is the repository where the K8S code lives
 
 ### Prepare pre-commit
 
-Refer to the README.md  for this.
+Refer to the README.md  for this. (Adjust file /home/fabrice/k8s-cluster-mk4/.pre-commit-config.yaml if needed)
+
+### Follow the readme
+
+Follow the steps described there, until you complete the "Preparing Ubuntu with Ansible section"
