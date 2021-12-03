@@ -1,8 +1,7 @@
 
 ansible
 direnv
-flux
-fluxctl
+fluxcd/tap/flux
 gnupg
 go-task/tap/go-task
 ipcalc
@@ -23,3 +22,4 @@ markdownlint-cli
 velero
 mfuentesg/tap/ksd
 age
+keychain

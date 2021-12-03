@@ -268,3 +268,95 @@ Refer to the README.md  for this. (Adjust file /home/fabrice/k8s-cluster-mk4/.pr
 ### Follow the readme
 
 Follow the steps described there, until you complete the "Preparing Ubuntu with Ansible section"
+
+## K3S install
+
+Before proceeding, edit this file: 
+provision/ansible/inventory/group_vars/kubernetes/k3s.yml
+
+Set this to true, if you have **less than 3 master nodes**
+
+```yaml
+# (bool) Allow the use of unsupported configurations in k3s
+k3s_use_unsupported_config: true
+```
+[reference](https://githubmemory.com/repo/k8s-at-home/template-cluster-k3s/issues/115)
+
+Verify the installation was succesfull
+
+```sh
+fabrice@DESKTOP-FS:~/k8s-cluster-mk4$ kubectl --kubeconfig=./provision/kubeconfig get nodes
+NAME    STATUS     ROLES                       AGE    VERSION
+k8s-0   Ready      control-plane,etcd,master   112s   v1.22.3+k3s1
+k8s-1   NotReady   <none>                      16s    v1.22.3+k3s1
+k8s-2   NotReady   <none>                      16s    v1.22.3+k3s1
+k8s-3   NotReady   <none>                      16s    v1.22.3+k3s1
+fabrice@DESKTOP-FS:~/k8s-cluster-mk4$
+```
+
+Copy the kubeconfig
+
+```sh
+fabrice@DESKTOP-FS:~/k8s-cluster-mk4$ cp ./provision/kubeconfig ~/.kube/config
+```
+
+Some additional considerations to the .bashrc (for zshell some of these might differ)
+
+```sh
+#& HOMEBREW
+echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/fabrice/.profile
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+#& SSH
+if [ -z "$SSH_AUTH_SOCK" ] ; then 
+    eval `ssh-agent -s` 
+    ssh-add 
+fi
+
+# #####################################################################################&
+# ###&  The --clear option make sure Intruder cannot use your existing SSH-Agents keys 
+# ###& i.e. Only allow cron jobs to use password less login 
+# #####################################################################################&
+# /usr/bin/keychain --clear $HOME/.ssh/id_ed25519
+# source $HOME/.keychain/$HOSTNAME-sh
+
+# ##& https://stackoverflow.com/questions/63793836/unable-to-commit-to-git-with-the-gpg-key-error
+# GPG_TTY=$(tty)
+# export GPG_TTY
+
+##& https://github.com/ahmetb/kubectl-aliases
+[ -f ~/.kubectl_aliases ] && source \
+   <(cat ~/.kubectl_aliases | sed -r 's/(kubectl.*) --watch/watch \1/g')
+function kubectl() { echo "+ kubectl $@">&2; command kubectl $@; }   
+
+#& https://fluxcd.io/docs/cmd/flux_completion_bash/
+command -v flux >/dev/null && . <(flux completion bash)
+
+#& https://neate.dev/technology/2019/11/14/changing-the-default-editor-of-kubectl-edit.html
+export KUBE_EDITOR=code
+
+alias cls=clear
+
+#& https://github.com/hidetatz/kubecolor
+alias kubectl="kubecolor"
+
+#& backup this profile
+yes | cp ~/.bashrc /home/fabrice/k8s-home-cluster-mk3/hack/.bashrc_backup
+
+#& https://github.com/kubernetes/kubernetes/issues/17512
+alias util='kubectl get nodes --no-headers | awk '\''{print $1}'\'' | xargs -I {} sh -c '\''echo {} ; kubectl describe node {} | grep Allocated -A 5 | grep -ve Event -ve Allocated -ve percent -ve -- ; echo '\'''
+# # Get CPU request total (we x20 because because each m3.large has 2 vcpus (2000m) )
+# alias cpualloc='util | grep % | awk '\''{print $1}'\'' | awk '\''{ sum += $1 } END { if (NR > 0) { print sum/(NR*20), "%\n" } }'\'''
+# # Get mem request total (we x75 because because each m3.large has 7.5G ram )
+# alias memalloc='util | grep % | awk '\''{print $5}'\'' | awk '\''{ sum += $1 } END { if (NR > 0) { print sum/(NR*75), "%\n" } }'\'''
+
+#&
+# k = kubectl  https://kubernetes.io/docs/reference/kubectl/cheatsheet/
+alias k=kubectl
+complete -F __start_kubectl k
+```
+
+## Flux install
+
+Follow the other readme.md
+
