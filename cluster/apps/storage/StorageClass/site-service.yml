@@ -1,0 +1,12 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: ssd-storage-class-service
+  namespace: pv-demo
+spec:
+  selector:
+    app: ssd-storage-class-site
+  ports:
+  - protocol: TCP
+    port: 80

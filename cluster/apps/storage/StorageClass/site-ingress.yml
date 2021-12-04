@@ -1,0 +1,21 @@
+
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  namespace: pv-demo
+  name: ssd-storage-class-ingress
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+  - host: ssd-storage-class.192.168.2.101.nip.io
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: ssd-storage-class-service
+            port:
+              number: 80
