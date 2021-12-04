@@ -111,7 +111,9 @@ spec:
           #? external DNS - if need to be accessed via Internet (using CloudFlare)
           #? https://github.com/kubernetes-sigs/external-dns/blob/master/docs/faq.md
           external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_DOMAIN}"
-          external-dns/is-public: "true"          
+          external-dns/is-public: "true"     
+          #! oauth2 #!
+          traefik.ingress.kubernetes.io/router.middlewares: networking-traefik-forward-auth@kubernetescrd               
         hosts:
           - host: "hajimari.${SECRET_DOMAIN}"
             paths:

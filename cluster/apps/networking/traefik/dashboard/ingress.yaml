@@ -18,6 +18,8 @@ metadata:
     #? https://github.com/kubernetes-sigs/external-dns/blob/master/docs/faq.md
     external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_DOMAIN}"
     external-dns/is-public: "true"
+    #! oauth2 #!
+    traefik.ingress.kubernetes.io/router.middlewares: networking-traefik-forward-auth@kubernetescrd    
 spec:
   ingressClassName: "traefik"
   tls:
