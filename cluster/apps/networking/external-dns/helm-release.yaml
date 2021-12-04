@@ -1,0 +1,55 @@
+---
+#? refs:
+#? https://git.app.uib.no/caleno/helm-charts/-/tree/9efca36141e4f02fed311644e5dac44b443a2df5/stable/external-dns
+#? https://github.com/kubernetes-sigs/external-dns
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: external-dns
+  namespace: networking
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://kubernetes-sigs.github.io/external-dns
+      chart: external-dns
+      version: 1.6.0
+      sourceRef:
+        kind: HelmRepository
+        name: external-dns-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    interval: 5m
+    policy: upsert-only #! Modify how DNS records are sychronized between sources and providers (options: sync, upsert-only )
+    logLevel: debug
+    provider: cloudflare
+    env:
+      - name: CF_API_EMAIL
+        valueFrom:
+          secretKeyRef:
+            name: cloudflare-creds
+            key: email
+      - name: CF_API_KEY
+        valueFrom:
+          secretKeyRef:
+            name: cloudflare-creds
+            key: api-key
+    extraArgs:
+      - --cloudflare-proxied
+      #- --provider=cloudflare
+      #- --source=ingress # ingress service  is also possible
+      - --annotation-filter=external-dns/is-public in (true) # https://github.com/kubernetes-sigs/external-dns/blob/master/docs/faq.md
+    sources:
+      - ingress
+      - service
+    # txtPrefix: "k8s."
+    txtOwnerId: "default"
+    domainFilters:
+      - "${SECRET_DOMAIN}"
+    resources:
+      requests:
+        memory: 100Mi
+        cpu: 25m
+      limits:
+        memory: 250Mi
