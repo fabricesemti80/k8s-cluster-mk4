@@ -2,11 +2,11 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: ssd-storage-class-service
-  namespace: pv-demo
+  name: hdd-storage-class-service
+  namespace: storage
 spec:
   selector:
-    app: ssd-storage-class-site
+    app: hdd-storage-class-site
   ports:
   - protocol: TCP
     port: 80

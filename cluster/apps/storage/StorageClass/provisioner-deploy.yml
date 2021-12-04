@@ -2,7 +2,7 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: nfs-client-provisioner
-  namespace: pv-demo
+  namespace: storage
 spec:
   selector:
     matchLabels:
@@ -24,17 +24,17 @@ spec:
               cpu: 1
               memory: 1Gi
           volumeMounts:
-            - name: nfs-client-ssd
+            - name: nfs-client-hdd
               mountPath: /persistentvolumes
           env:
             - name: PROVISIONER_NAME
-              value: ff1.dev/nfs
+              value: fabricesemti.net/nfs
             - name: NFS_SERVER
-              value: 192.168.2.30
+              value: "${NAS_SERVER}" #192.168.2.30
             - name: NFS_PATH
-              value: /ssd/dynamic
+              value: /StorageClasses  #/ssd/dynamic
       volumes:
-        - name: nfs-client-ssd
+        - name: nfs-client-hdd
           nfs:
-            server: 192.168.2.30
-            path: /ssd/dynamic
+            server: "${NAS_SERVER}" #192.168.2.30
+            path: /StorageClasses  #/ssd/dynamic

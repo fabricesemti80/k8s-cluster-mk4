@@ -5,7 +5,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: nfs-client-provisioner
-    namespace: pv-demo
+    namespace: storage
 roleRef:
   kind: ClusterRole
   name: nfs-client-provisioner-runner
