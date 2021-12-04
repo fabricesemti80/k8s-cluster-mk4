@@ -23,3 +23,12 @@ We will create external DNS so that our ingresses are automatically updated on C
 
 Take a look on the structure under 'cluster/apps/networking/external-dns'
 
+* update the secret with your values
+
+* encrypt the file
+
+* also add the 'external-dns' folder to the 'cluster/apps/networking/kustomization.yaml' file
+
+### Traefik forward auth / Traefik Middleware
+
+Create the structure as per the folders
