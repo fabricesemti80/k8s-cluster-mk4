@@ -108,6 +108,10 @@ spec:
           hajimari.io/enable: "true"
           hajimari.io/icon: "weather-sunset"
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          #? external DNS - if need to be accessed via Internet (using CloudFlare)
+          #? https://github.com/kubernetes-sigs/external-dns/blob/master/docs/faq.md
+          external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_DOMAIN}"
+          external-dns/is-public: "true"          
         hosts:
           - host: "hajimari.${SECRET_DOMAIN}"
             paths:
