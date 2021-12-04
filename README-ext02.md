@@ -31,4 +31,18 @@ Take a look on the structure under 'cluster/apps/networking/external-dns'
 
 ### Traefik forward auth / Traefik Middleware
 
-Create the structure as per the folders
+Create the structure as per the folders.
+
+* update the secret with your values
+
+* encrypt the file
+
+* also add the 'middleware and 'traefik-forward-auth' folders to the 'cluster/apps/networking/traefik/kustomization.yaml' file
+
+Once this is done, the ingresses should ask for Google authentication.
+
+
+### Cloudflare DDNS
+
+This should be also set up, so that the cluster always - even if the external IP of your router changes - is having up-to-date DNS record.
+
