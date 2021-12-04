@@ -12,7 +12,7 @@ Please take a look on the files and folders under "cluster/base/flux-system/noti
 
 * you need to encrypt the secret file, as per the comment (modify the path!)
 
-* also add the "notifications" folder into "cluster/base/flux-system/kustomization.yaml" 
+* also add the "notifications" folder into "cluster/base/flux-system/kustomization.yaml"
 
 
 ## Networking
@@ -45,4 +45,3 @@ Once this is done, the ingresses should ask for Google authentication.
 ### Cloudflare DDNS
 
 This should be also set up, so that the cluster always - even if the external IP of your router changes - is having up-to-date DNS record.
-

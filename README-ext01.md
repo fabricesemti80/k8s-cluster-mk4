@@ -77,7 +77,7 @@ Fix file permissions
 └─$ chmod 600 /home/fabrice/.ssh/id_ed25519
 
 ┌──(fabrice㉿DESKTOP-FS)-[~]
-└─$ chmod 600 /home/fabrice/.ssh/id_ed25519.pub 
+└─$ chmod 600 /home/fabrice/.ssh/id_ed25519.pub
 ```
 
 Add ssh key
@@ -131,7 +131,7 @@ IdentityFile ~/.ssh/id_ed25519
 User ubuntu
 ```
 
-Test connections 
+Test connections
 
 ```sh
 ┌──(fabrice㉿DESKTOP-FS)-[~]
@@ -216,14 +216,14 @@ cat << EOF > $var
 # Let NetworkManager manage all devices on this system
 # ref: https://askubuntu.com/questions/1317036/how-to-rename-a-network-interface-in-20-04
 # update madaddress (and add further interfaces, if you have any) accordingly
-# sudo nano /etc/netplan/01-network-manager-all.yaml 
+# sudo nano /etc/netplan/01-network-manager-all.yaml
   network:
     version: 2
     ethernets:
-        eth0:            
+        eth0:
             addresses:
             #TODO: upate this for the selected IP of the host
-            - 192.168.1.22/16 
+            - 192.168.1.22/16
             gateway4: 192.168.1.1
             nameservers:
                 addresses:
@@ -271,7 +271,7 @@ Follow the steps described there, until you complete the "Preparing Ubuntu with 
 
 ## K3S install
 
-Before proceeding, edit this file: 
+Before proceeding, edit this file:
 provision/ansible/inventory/group_vars/kubernetes/k3s.yml
 
 Set this to true, if you have **less than 3 master nodes**
@@ -308,14 +308,14 @@ echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/fabrice/.
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 #& SSH
-if [ -z "$SSH_AUTH_SOCK" ] ; then 
-    eval `ssh-agent -s` 
-    ssh-add 
+if [ -z "$SSH_AUTH_SOCK" ] ; then
+    eval `ssh-agent -s`
+    ssh-add
 fi
 
 # #####################################################################################&
-# ###&  The --clear option make sure Intruder cannot use your existing SSH-Agents keys 
-# ###& i.e. Only allow cron jobs to use password less login 
+# ###&  The --clear option make sure Intruder cannot use your existing SSH-Agents keys
+# ###& i.e. Only allow cron jobs to use password less login
 # #####################################################################################&
 # /usr/bin/keychain --clear $HOME/.ssh/id_ed25519
 # source $HOME/.keychain/$HOSTNAME-sh
@@ -327,7 +327,7 @@ export GPG_TTY
 ##& https://github.com/ahmetb/kubectl-aliases
 [ -f ~/.kubectl_aliases ] && source \
    <(cat ~/.kubectl_aliases | sed -r 's/(kubectl.*) --watch/watch \1/g')
-function kubectl() { echo "+ kubectl $@">&2; command kubectl $@; }   
+function kubectl() { echo "+ kubectl $@">&2; command kubectl $@; }
 
 #& https://fluxcd.io/docs/cmd/flux_completion_bash/
 command -v flux >/dev/null && . <(flux completion bash)
@@ -369,4 +369,3 @@ signageos.signageos-vscode-sops
 Follow the other readme.md
 
 ## Continue reading in the README-ext02.md !
-
