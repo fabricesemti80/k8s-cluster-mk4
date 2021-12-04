@@ -368,4 +368,8 @@ signageos.signageos-vscode-sops
 
 Follow the other readme.md
 
+## Post-installation
+
+https://github.com/k8s-at-home/template-cluster-k3s/wiki
+
 ## Continue reading in the README-ext02.md !

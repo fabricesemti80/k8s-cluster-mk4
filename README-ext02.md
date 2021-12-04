@@ -45,3 +45,9 @@ Once this is done, the ingresses should ask for Google authentication.
 ### Cloudflare DDNS
 
 This should be also set up, so that the cluster always - even if the external IP of your router changes - is having up-to-date DNS record.
+
+If this does not work, the alternative is to run Terraform as per the README.md
+
+```sh
+task terraform:apply:cloudflare
+```
