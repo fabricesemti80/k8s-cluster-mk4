@@ -30,10 +30,10 @@ spec:
           - tools
           - monitoring
       name: "Fabrice"
-      customApps:
-        - name: Some External Cluster Service
-          url: http://192.168.1.100:5000
-          icon: test-tube
+      # customApps:
+        #- name: Some External Cluster Service
+        #  url: http://192.168.1.100:5000
+        #  icon: test-tube
       groups:
         - name: Communicate
           links:
