@@ -51,3 +51,7 @@ If this does not work, the alternative is to run Terraform as per the README.md
 ```sh
 task terraform:apply:cloudflare
 ```
+
+## Storage
+
+ref: https://levelup.gitconnected.com/how-to-use-nfs-in-kubernetes-cluster-storage-class-ed1179a83817
