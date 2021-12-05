@@ -94,4 +94,26 @@ For this you will need the files in **cluster/apps/vpn-gateway** folder, and als
 
         * VPN_PORT_QB: "56059" # only if you use qBittorrent
 
-* Also create the file **cluster/apps/vpn-gateway/secret.sops.yaml** and fi
+* Also create the file **cluster/apps/vpn-gateway/secret.sops.yaml** and fill it with your VPN config
+
+## qBittorrent-vpn
+
+This will allow us to download torrents via the vpn gateway.
+
+Before doing this, we need to update the files:
+
+* **cluster/base/cluster-secrets.sops.yaml**
+
+    * SECRET_QB_USERNAME
+
+    * SECRET_QB_PASSWORD
+
+* **/home/fabrice/k8s-cluster-mk4/cluster/base/cluster-settings.yaml**
+
+    * NAS_SERVER
+
+    * NAS_PATH_MEDIA # this is a path to an NFS share -  **a differnt one to the one used for StorageClass!** - where we keep our media data
+
+We will also need to adjust the files in **/home/fabrice/k8s-cluster-mk4/cluster/apps/media/qbittorrent-vpn**
+
+* update the storage class name to your prefered one in **cluster/apps/media/qbittorrent-vpn/config-pvc.yaml**
