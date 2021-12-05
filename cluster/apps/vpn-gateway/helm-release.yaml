@@ -1,0 +1,100 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: vpn-gateway
+  namespace: vpn-gateway
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: pod-gateway
+      version: 5.1.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      repository: ghcr.io/k8s-at-home/pod-gateway
+      tag: v1.4.0
+
+    routed_namespaces:
+      #- downloads
+      - media
+
+    settings:
+      NOT_ROUTED_TO_GATEWAY_CIDRS: "${K8S_CLUSTER_CIDR} ${K8S_SERVICE_CIDR} ${NETWORK_MANAGEMENT_CIDR}"
+      # Prevent non VPN traffic to leave the gateway
+      VPN_BLOCK_OTHER_TRAFFIC: true
+
+      # Traffic to these IPs will be send through the K8S gateway
+      # change if your K8S cluster or home network uses a different CIDR
+      VPN_LOCAL_CIDRS: "${K8S_CLUSTER_CIDR} ${K8S_SERVICE_CIDR} ${NETWORK_MANAGEMENT_CIDR}"
+      VPN_INTERFACE: tun0
+      VPN_TRAFFIC_PORT: ${VPN_GATEWAY_PORT}
+
+    webhook:
+      image:
+        repository: ghcr.io/k8s-at-home/gateway-admision-controller
+        tag: v3.4.0
+
+      gatewayDefault: false
+      gatewayLabel: useVpnGateway
+      gatewayAnnotation: useVpnGateway
+
+      namespaceSelector:
+        label: "vpn-routed-gateway"
+
+    addons:
+      vpn:
+        enabled: true
+        type: openvpn
+        openvpn:
+          image:
+            repository: dperson/openvpn-client #? https://github.com/dperson/openvpn-client
+            pullPolicy: Allways
+            tag: latest
+          authSecret: vpn-gateway-vpnconfig
+        configFileSecret: vpn-gateway-vpnconfig
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            memory: 512Mi
+        livenessProbe:
+          exec:
+            command: # the SECRET_VPN_COUNTRY should match with your VPN exit country
+              - sh
+              - -c
+              - if [ $(wget -q -O- https://ipinfo.io/country) == '${SECRET_VPN_COUNTRY}' ]; then exit 0; else exit $?; fi
+          initialDelaySeconds: 30
+          periodSeconds: 60
+          failureThreshold: 3
+        networkPolicy:
+          enabled: true
+          egress:
+            - to:
+                - ipBlock:
+                    cidr: 0.0.0.0/0
+              ports:
+                # VPN traffic
+                - port: ${VPN_GATEWAY_PORT}
+                  protocol: UDP
+            - to:
+                - ipBlock:
+                    cidr: ${K8S_CLUSTER_CIDR}
+                - ipBlock:
+                    cidr: ${K8S_SERVICE_CIDR}
+
+    publicPorts:
+      - hostname: qbittorrent
+        IP: 10
+        ports:
+          - type: udp
+            port: ${VPN_PORT_QB}
+          - type: tcp
+            port: ${VPN_PORT_QB}
