@@ -21,13 +21,13 @@ Please take a look on the files and folders under "cluster/base/flux-system/noti
 
 We will create external DNS so that our ingresses are automatically updated on CloudFlare (you might need a different method, if you are using a different provider!)
 
-Take a look on the structure under 'cluster/apps/networking/external-dns'
+Take a look on the structure under **cluster/apps/networking/external-dns**
 
 * update the secret with your values
 
 * encrypt the file
 
-* also add the 'external-dns' folder to the 'cluster/apps/networking/kustomization.yaml' file
+* also add the **external-dns** folder to the **cluster/apps/networking/kustomization.yaml** file
 
 ### Traefik forward auth / Traefik Middleware
 
@@ -37,7 +37,7 @@ Create the structure as per the folders.
 
 * encrypt the file
 
-* also add the 'middleware and 'traefik-forward-auth' folders to the 'cluster/apps/networking/traefik/kustomization.yaml' file
+* also add the **middleware and **traefik-forward-auth** folders to the **cluster/apps/networking/traefik/kustomization.yaml** file
 
 Once this is done, the ingresses should ask for Google authentication.
 
@@ -53,6 +53,14 @@ task terraform:apply:cloudflare
 ```
 
 ## Storage
+
+In my case I have a Qnap NAS, that serves as my NFS provider, so I opted for a simple NFS storage class. (If you have other type of storages, you need to set up the storage class differently)
+
+The neccesary files can be found under **cluster/apps/storage**.
+
+* you will also need to include your NAS-s IP or hostname in this file: **cluster/base/cluster-settings.yaml**
+
+* also make sure to update the paths on the NFS server in file **cluster/apps/storage/storageClass/provisioner-deploy.yml**
 
 ref: https://levelup.gitconnected.com/how-to-use-nfs-in-kubernetes-cluster-storage-class-ed1179a83817
 

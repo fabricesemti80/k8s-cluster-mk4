@@ -24,7 +24,7 @@ spec:
           name: hdd-storage-class-site
           resources:
             limits:
-              cpu: '1'
+              cpu: "1"
               memory: 100Mi
           volumeMounts:
             - name: hdd-storage-class-volume
