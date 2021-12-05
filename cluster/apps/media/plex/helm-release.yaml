@@ -97,11 +97,11 @@ spec:
     resources:
       requests:
         # gpu.intel.com/i915: 1
-        cpu: 3500m
-        memory: 4000Mi
+        cpu: 3500m #? "kubectl describe node" and check that this is under the total of the node running Plex
+        memory: 4000Mi #? "kubectl describe node" and check that this is under the total of the node running Plex
       limits:
         # gpu.intel.com/i915: 1
-        memory: 7500Mi #? this should be lower than your total
+        memory: 7500Mi
     #FIXME: get better hosts
     addons:
       promtail:
