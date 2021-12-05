@@ -65,3 +65,33 @@ The neccesary files can be found under **cluster/apps/storage**.
 ref: https://levelup.gitconnected.com/how-to-use-nfs-in-kubernetes-cluster-storage-class-ed1179a83817
 
 Note: you will need to replace the arm image, if you are not using Raspberry PI. https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner
+
+## VPN gateway
+
+This will allow us to connect selected namespaces  or deployments to VPN.
+
+For this you will need the files in **cluster/apps/vpn-gateway** folder, and also a few pre-requisites:
+
+* I use NordVPN, so you should have an account with it (other VPN providers might need different setup)
+
+* You should have a NordVPN config from here https://nordvpn.com/ovpn/
+
+* You should prepare the following files:
+
+    * **cluster/base/cluster-secrets.sops.yaml**
+
+        * SECRET_VPN_COUNTRY: <this is the two character identifier for your VPN exit country>
+
+    * **/home/fabrice/k8s-cluster-mk4/cluster/base/cluster-settings.yaml**
+
+        * K8S_CLUSTER_CIDR: "10.42.0.0/16"
+
+        * K8S_SERVICE_CIDR: "10.43.0.0/16"
+
+        * NETWORK_MANAGEMENT_CIDR: "192.168.0.0/16" # this is in fact your LAN
+
+        * VPN_GATEWAY_PORT: "1194"
+
+        * VPN_PORT_QB: "56059" # only if you use qBittorrent
+
+* Also create the file **cluster/apps/vpn-gateway/secret.sops.yaml** and fi
