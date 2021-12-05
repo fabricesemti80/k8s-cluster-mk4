@@ -98,11 +98,11 @@ spec:
     resources:
       requests:
         # gpu.intel.com/i915: 1
-        cpu: 4000m
+        cpu: 2000m
         memory: 6000Mi
       limits:
         # gpu.intel.com/i915: 1
-        cpu: 6000m
+
         memory: 8000Mi
     #FIXME: get better hosts
     addons:
