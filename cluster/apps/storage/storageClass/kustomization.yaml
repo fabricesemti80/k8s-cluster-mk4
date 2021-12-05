@@ -11,4 +11,4 @@ resources:
   # - site-ingress.yml
   # - site-service.yml
   - storage-class.yml
-  - volume-claim.yml
+  #- volume-claim.yml
