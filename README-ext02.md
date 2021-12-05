@@ -152,3 +152,21 @@ kah@qbittorrent-vpn-fd84b9b98-vldd9:/app$ curl ipinfo.io
 This will deal with our series management.
 
 Sonarr is relatively straightforward, settings should be contained in folder **cluster/apps/media/sonarr**
+
+## Plex
+
+TBA
+
+Update files:
+
+* **cluster/base/cluster-settings.yaml**
+
+    * SVC_PLEX_ADDRESS
+
+* **cluster/base/cluster-secrets.sops.yaml**
+
+    * SECRET_PLEX_CLAIM_TOKEN # from https://www.plex.tv/claim/
+
+## Overseer
+
+TBA

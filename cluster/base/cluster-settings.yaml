@@ -18,3 +18,5 @@ data:
   NETWORK_MANAGEMENT_CIDR: "192.168.0.0/16" # LAN
   VPN_GATEWAY_PORT: "1194"
   VPN_PORT_QB: "56059" # only if you use QBittorrent
+  # Plex
+  SVC_PLEX_ADDRESS: 192.168.1.202
