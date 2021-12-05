@@ -97,11 +97,11 @@ spec:
     resources:
       requests:
         # gpu.intel.com/i915: 1
-        cpu: 3000m
-        memory: 6000Mi
+        cpu: 3500m
+        memory: 4000Mi
       limits:
         # gpu.intel.com/i915: 1
-        memory: 8000Mi
+        memory: 7500Mi #? this should be lower than your total
     #FIXME: get better hosts
     addons:
       promtail:
