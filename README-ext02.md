@@ -104,6 +104,8 @@ Before doing this, we need to update the files:
 
 * **cluster/base/cluster-secrets.sops.yaml**
 
+    <span style="color:red">Important: these are just for the metrics! (You will need to log in first with **admin/adminadmin** first via the UI, and update the defaults to this! </span> (Will look into this...)
+
     * SECRET_QB_USERNAME
 
     * SECRET_QB_PASSWORD
@@ -117,3 +119,36 @@ Before doing this, we need to update the files:
 We will also need to adjust the files in **/home/fabrice/k8s-cluster-mk4/cluster/apps/media/qbittorrent-vpn**
 
 * update the storage class name to your prefered one in **cluster/apps/media/qbittorrent-vpn/config-pvc.yaml**
+
+<span style="color:orange">Important2: at the moment QBittorrent redirection from Hajimari is not working, so you will need to reload the page, if you opened it from Hajimari. </span>
+
+After the deployment is up:
+
+* log in and change the web ui username and password
+
+* adjust the default download path from /config/downloads/ to /media/downloads/
+
+* connect to the pod and verify your contry
+
+```sh
+kah@qbittorrent-vpn-fd84b9b98-vldd9:/app$ curl ipinfo.io
+{
+  "ip": "217.138.xxx.xxx",
+  "city": "Dublin",
+  "region": "Leinster",
+  "country": "IE",
+  "loc": "53.3331,-6.2489",
+  "org": "AS9009 M247 Ltd",
+  "postal": "D02",
+  "timezone": "Europe/Dublin",
+  "readme": "https://ipinfo.io/missingauth"
+}kah@qbittorrent-vpn-fd84b9b98-vldd9:/app$
+```
+
+*(fyi I am NOT in ireland, but my VPN exit is for NordVPN)*
+
+## Sonarr
+
+This will deal with our series management.
+
+Sonarr is relatively straightforward, settings should be contained in folder **cluster/apps/media/sonarr**
