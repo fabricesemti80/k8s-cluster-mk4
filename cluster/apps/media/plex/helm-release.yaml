@@ -51,7 +51,6 @@ spec:
           traefik.ingress.kubernetes.io/router.middlewares: networking-traefik-forward-auth@kubernetescrd # needs oauth
           external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_DOMAIN}"
           external-dns/is-public: "true"
-
         hosts:
           - host: "plex.${SECRET_DOMAIN}"
             paths:
@@ -98,11 +97,10 @@ spec:
     resources:
       requests:
         # gpu.intel.com/i915: 1
-        cpu: 2000m
+        cpu: 3000m
         memory: 6000Mi
       limits:
         # gpu.intel.com/i915: 1
-
         memory: 8000Mi
     #FIXME: get better hosts
     addons:
