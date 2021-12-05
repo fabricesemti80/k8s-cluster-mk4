@@ -1,0 +1,72 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: overseerr
+  namespace: media
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: overseerr
+      version: 5.1.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      repository: ghcr.io/sct/overseerr
+      tag: 1.27.0
+    env:
+      TZ: "Europe/London"
+      LOG_LEVEL: "info"
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "traefik"
+        annotations:
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "eye-circle"
+          cert-manager.io/cluster-issuer: "letsencrypt-production" # needs cert
+          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          traefik.ingress.kubernetes.io/router.middlewares: networking-traefik-forward-auth@kubernetescrd # needs oauth
+          external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_DOMAIN}" # needs external DNS #? https://github.com/kubernetes-sigs/external-dns/blob/master/docs/faq.md
+          external-dns/is-public: "true"
+        hosts:
+          - host: "requests.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - "requests.${SECRET_DOMAIN}"
+            secretName: "overseerr-tls"
+    persistence:
+      config:
+        enabled: true
+        existingClaim: overseerr-config-v1
+        mountPath: /app/config
+    podAnnotations:
+      backup.velero.io/backup-volumes: config
+      pre.hook.backup.velero.io/container: fsfreeze
+      pre.hook.backup.velero.io/command: '["/sbin/fsfreeze", "--freeze", "/config"]'
+      post.hook.backup.velero.io/container: fsfreeze
+      post.hook.backup.velero.io/command: '["/sbin/fsfreeze", "--unfreeze", "/config"]'
+    resources:
+      requests:
+        memory: 250Mi
+        cpu: 500m
+      limits:
+        memory: 750Mi
+    additionalContainers:
+      fsfreeze:
+        name: fsfreeze
+        image: ghcr.io/k8s-at-home/fsfreeze:v2.37-r0
+        volumeMounts:
+          - name: config
+            mountPath: /config
+        securityContext:
+          privileged: true
