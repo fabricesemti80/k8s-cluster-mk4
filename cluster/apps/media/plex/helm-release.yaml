@@ -99,10 +99,10 @@ spec:
       requests:
         # gpu.intel.com/i915: 1
         cpu: 1500m
-        memory: 20000Mi
+        memory: 10000Mi
       limits:
         # gpu.intel.com/i915: 1
-        memory: 8000Mi
+        memory: 15000Mi
     #FIXME: get better hosts
     addons:
       promtail:
