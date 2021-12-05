@@ -7,8 +7,8 @@ resources:
   - role-binding.yml
   - role.yml
   - service-account.yml
-  - site-deploy.yml
-  - site-ingress.yml
-  - site-service.yml
+  # - site-deploy.yml
+  # - site-ingress.yml
+  # - site-service.yml
   - storage-class.yml
   - volume-claim.yml
