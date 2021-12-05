@@ -55,3 +55,5 @@ task terraform:apply:cloudflare
 ## Storage
 
 ref: https://levelup.gitconnected.com/how-to-use-nfs-in-kubernetes-cluster-storage-class-ed1179a83817
+
+Note: you will need to replace the arm image, if you are not using Raspberry PI. https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner

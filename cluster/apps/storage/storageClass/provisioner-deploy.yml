@@ -18,7 +18,7 @@ spec:
       serviceAccountName: nfs-client-provisioner
       containers:
         - name: nfs-client-provisioner
-          image: quay.io/external_storage/nfs-client-provisioner-arm:latest
+          image: k8s.gcr.io/sig-storage/nfs-subdir-external-provisioner:v4.0.2
           resources:
             limits:
               cpu: 1
@@ -32,9 +32,9 @@ spec:
             - name: NFS_SERVER
               value: "${NAS_SERVER}" #192.168.2.30
             - name: NFS_PATH
-              value: /StorageClasses  #/ssd/dynamic
+              value: /StorageClasses #/ssd/dynamic
       volumes:
         - name: nfs-client-hdd
           nfs:
             server: "${NAS_SERVER}" #192.168.2.30
-            path: /StorageClasses  #/ssd/dynamic
+            path: /StorageClasses #/ssd/dynamic
