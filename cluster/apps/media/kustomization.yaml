@@ -7,3 +7,4 @@ resources:
   - sonarr
   - overseerr
   - radarr
+  - bazarr

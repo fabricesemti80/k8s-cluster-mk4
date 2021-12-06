@@ -170,3 +170,7 @@ Update files:
 ## Overseer
 
 TBA
+
+## Bazarr
+
+TBA
