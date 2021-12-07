@@ -48,7 +48,7 @@ spec:
         template:
           ttl: "168h"
     metrics:
-      enabled: true
+      enabled: false # true #FIXME: make this true
       serviceMonitor:
         enabled: true
     backupsEnabled: true
