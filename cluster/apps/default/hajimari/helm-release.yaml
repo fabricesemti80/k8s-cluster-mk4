@@ -29,6 +29,7 @@ spec:
           - media
           - tools
           - monitoring
+          - storage
       name: "Fabrice"
       # customApps:
         #- name: Some External Cluster Service
