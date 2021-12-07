@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
   - storageClass
   - namespace.yml
-  - minio
+  #- minio

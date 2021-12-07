@@ -174,3 +174,7 @@ TBA
 ## Bazarr
 
 TBA
+
+## Minio
+
+With Minio we can imitate s3 buckets.
