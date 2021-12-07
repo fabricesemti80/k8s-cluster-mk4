@@ -8,4 +8,4 @@ resources:
   - storage
   - vpn-gateway
   - media
-  - velero
+  #- velero
