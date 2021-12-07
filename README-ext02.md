@@ -178,3 +178,7 @@ TBA
 ## Minio
 
 With Minio we can imitate s3 buckets.
+
+In order for Minio to be deployed, we need to have the kah-common charts, as seen in **charts/kah-common/charts** folder.
+
+We also have to have an NFS share, where the data is kept.
