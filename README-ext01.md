@@ -372,4 +372,8 @@ Follow the other readme.md
 
 https://github.com/k8s-at-home/template-cluster-k3s/wiki
 
+## For convenience, also add history completion (optional)
+
+https://www.pix-art.be/post/bash-history-completion
+
 ## Continue reading in the README-ext02.md !
