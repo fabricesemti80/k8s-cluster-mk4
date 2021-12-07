@@ -186,3 +186,5 @@ We also have to have an NFS share, where the data is kept.
 ## Velero
 
 Velero depends on minion and it's secret uses the credentials of Minio (defined originailly in the cluster secrets).
+
+Velero also needs it's charts defined in the **cluster/base/flux-system/charts/helm** folder. (Do not forget to add this to the kustomization!)
