@@ -1,0 +1,97 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: minio
+  namespace: storage
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: /charts/kah-common/
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      repository: quay.io/minio/minio
+      tag: RELEASE.2021-10-23T03-28-24Z
+    nameOverride: minio
+    env:
+      MINIO_PROMETHEUS_AUTH_TYPE: "public"
+      MINIO_UPDATE: "off"
+      TZ: "Europe/London"
+    envFrom:
+      - secretRef:
+          name: minio
+    args:
+      - server
+      - /data
+      - --console-address
+      - :9001
+    service:
+      main:
+        enabled: true
+        ports:
+          http:
+            enabled: true
+            port: 9001
+          api:
+            enabled: true
+            port: 9000
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "traefik"
+        annotations:
+          #? cert issuer; valid opttions: letsencrypt-stating or letsencrypt-production
+          cert-manager.io/cluster-issuer: "letsencrypt-production"
+          # TODO: Add hajimari annotations to minio ingress
+          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          #! oauth2 #!
+          traefik.ingress.kubernetes.io/router.middlewares: networking-traefik-forward-auth@kubernetescrd
+          #? hajimari-specific (optional) - icon ref: https://materialdesignicons.com/
+          hajimari.io/appName: "minio"
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "server"
+          #? external DNS - if need to be accessed via Internet (using CloudFlare)
+          #? https://github.com/kubernetes-sigs/external-dns/blob/master/docs/faq.md
+          external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_DOMAIN}"
+          external-dns/is-public: "true"
+        hosts:
+          - host: "minio.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  port: 9001
+          - host: "s3.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  port: 9000
+        tls:
+          - hosts:
+              - "minio.${SECRET_DOMAIN}"
+              - "s3.${SECRET_DOMAIN}"
+            secretName: "minio-tls"
+    persistence:
+      config:
+        enabled: true
+        type: custom
+        volumeSpec:
+          nfs:
+            server: "${NAS_SERVER}"
+            path: "${NAS_PATH_MINIO}"
+        mountPath: /data
+    podAnnotations:
+      secret.reloader.stakater.com/reload: "minio"
+    resources:
+      requests:
+        memory: 100Mi
+        cpu: 100m
+      limits:
+        memory: 750Mi
