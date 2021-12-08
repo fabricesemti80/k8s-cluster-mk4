@@ -28,9 +28,9 @@ spec:
         bucket: velero-001
         default: true
         config:
-          region: uk-south-1
+          region: us-east-1
           s3ForcePathStyle: true
-          s3Url: http://minio:9000
+          s3Url: http://minio.storage:9000
           publicUrl: https://s3.${SECRET_DOMAIN}
       resticTimeout: 4h
     initContainers:
