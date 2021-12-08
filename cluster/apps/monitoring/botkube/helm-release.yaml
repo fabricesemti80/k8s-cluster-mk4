@@ -19,8 +19,8 @@ spec:
   values:
     communications:
       existingSecretName: "botkube-communications"
-    # serviceMonitor: # #FIXME: get prometheus
-    #   enabled: true
+    serviceMonitor: # #FIXME: get Prometheus #? ref: https://github.com/infracloudio/botkube/blob/develop/helm/botkube/values.yaml
+      enabled: false
     config:
       recommendations: false
       settings:
