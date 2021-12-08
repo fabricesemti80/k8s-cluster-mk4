@@ -9,3 +9,4 @@ resources:
   - vpn-gateway
   - media
   - velero
+  - monitoring
