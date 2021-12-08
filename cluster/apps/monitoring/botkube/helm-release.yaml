@@ -19,8 +19,8 @@ spec:
   values:
     communications:
       existingSecretName: "botkube-communications"
-    serviceMonitor:
-      enabled: true
+    # serviceMonitor: # #FIXME: get prometheus
+    #   enabled: true
     config:
       recommendations: false
       settings:
