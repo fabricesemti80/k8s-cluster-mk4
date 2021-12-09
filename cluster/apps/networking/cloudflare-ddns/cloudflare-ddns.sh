@@ -38,14 +38,22 @@ echo "---------------------------------------------------------"
 echo "Actual result:"
 echo "---------------------------------------------------------"
 echo "$update4"
+echo "---------------------------------------------------------"
+echo "---------------------------------------------------------"
 
 if echo "$update4" | grep -q '\"success\":false'; then
     printf "%s - Yikes - Updating IP Address '%s' has failed" "$(date -u)" "$ip4"
+    echo "---------------------------------------------------------"
+    echo "---------------------------------------------------------"
     exit 1
 elif echo "$update4" | grep -q '\"method_not_allowed\"'; then
     printf "%s - Blabla - Updating IP Address '%s' has failed - did you put full FQDN of the record?? (eg. NOT 'foo' BUT 'foo.examle.com'...)" "$(date -u)" "$ip4"
+    echo "---------------------------------------------------------"
+    echo "---------------------------------------------------------"
     exit 1
 else
     printf "%s - Success - IP Address '%s' has been updated" "$(date -u)" "$ip4"
+    echo "---------------------------------------------------------"
+    echo "---------------------------------------------------------"
     exit 0
 fi
