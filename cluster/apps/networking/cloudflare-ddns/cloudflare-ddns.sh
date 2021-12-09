@@ -27,7 +27,6 @@ update4=$(
         --data "{\"id\":\"$CLOUDFLARE_ZONEID\",\"type\":\"A\",\"proxied\":true,\"name\":\"$CLOUDFLARE_RECORD_NAME\",\"content\":\"$ip4\"}"
 )
 
-echo "---------------Verbose report:---------------------------"
 echo "---------------------------------------------------------"
 echo "Attempted update parameters:"
 echo "---------------------------------------------------------"
@@ -42,8 +41,11 @@ echo "$update4"
 
 if echo "$update4" | grep -q '\"success\":false'; then
     printf "%s - Yikes - Updating IP Address '%s' has failed" "$(date -u)" "$ip4"
+    exit 1
 elif echo "$update4" | grep -q '\"method_not_allowed\"'; then
-    printf "%s - Blabla - Updating IP Address '%s' has failed - did you put full FQDN? (eg. NOT 'foo' BUT 'foo.examle.com'...)" "$(date -u)" "$ip4"
+    printf "%s - Blabla - Updating IP Address '%s' has failed - did you put full FQDN of the record?? (eg. NOT 'foo' BUT 'foo.examle.com'...)" "$(date -u)" "$ip4"
+    exit 1
 else
     printf "%s - Success - IP Address '%s' has been updated" "$(date -u)" "$ip4"
+    exit 0
 fi
