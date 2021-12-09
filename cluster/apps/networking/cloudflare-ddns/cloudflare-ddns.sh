@@ -26,15 +26,18 @@ update4=$(
         -H "Content-Type: application/json" \
         --data "{\"id\":\"$CLOUDFLARE_ZONEID\",\"type\":\"A\",\"proxied\":true,\"name\":\"$CLOUDFLARE_RECORD_NAME\",\"content\":\"$ip4\"}"
 )
-echo "Verbose report:"
-echo "_________________________________________________________"
-echo "Attempted update parameters"
-echo $CLOUDFLARE_EMAIL
-echo $CLOUDFLARE_ZONEID
-echo $CLOUDFLARE_RECORD_NAME
-echo $ip4
-echo "_________________________________________________________"
-echo "Actual result"
+
+echo "---------------Verbose report:---------------------------"
+echo "---------------------------------------------------------"
+echo "Attempted update parameters:"
+echo "---------------------------------------------------------"
+echo "X-Auth-Email: $CLOUDFLARE_EMAIL"
+echo "cloudflare zone ID: $CLOUDFLARE_ZONEID"
+echo "record:  $CLOUDFLARE_RECORD_NAME"
+echo "current public IP: $ip4"
+echo "---------------------------------------------------------"
+echo "Actual result:"
+echo "---------------------------------------------------------"
 echo "$update4"
 
 if echo "$update4" | grep -q '\"success\":false'; then
