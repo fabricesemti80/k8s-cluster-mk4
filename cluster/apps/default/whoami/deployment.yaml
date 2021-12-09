@@ -1,0 +1,28 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+#test
+metadata:
+  name: whoami
+  namespace: default
+  labels:
+    app: whoami
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: whoami
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: whoami
+    spec:
+      containers:
+        - image: traefik/whoami
+          name: whoami
+          ports:
+            - name: http
+              containerPort: 80
+      restartPolicy: Always

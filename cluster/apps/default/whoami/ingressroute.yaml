@@ -1,0 +1,24 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: whoami
+  namespace: default
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-production"
+    external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_DOMAIN}"
+    external-dns/is-public: "true"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`whoami.${SECRET_DOMAIN}`)
+      services:
+        - name: whoami
+          port: 80
+      middlewares:
+        - name: networking-traefik-forward-auth@kubernetescrd
+  tls:
+    secretName: traefik-forward-auth-tls
+    certResolver: default
