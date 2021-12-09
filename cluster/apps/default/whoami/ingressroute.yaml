@@ -20,5 +20,5 @@ spec:
       middlewares:
         - name: networking-traefik-forward-auth@kubernetescrd
   tls:
-    secretName: traefik-forward-auth-tls
+    secretName: whoami-tls-secret
     certResolver: default
