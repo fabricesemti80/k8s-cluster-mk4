@@ -15,4 +15,4 @@ xanmanning.k3s*
 .terraform
 .terraform.tfstate*
 terraform.tfstate*
-~*tests.sh
+*tests*.sh
