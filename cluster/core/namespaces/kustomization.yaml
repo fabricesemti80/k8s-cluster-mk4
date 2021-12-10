@@ -4,3 +4,8 @@ resources:
   - cert-manager.yaml
   - metallb-system.yaml
   - networking.yaml
+  - media.yaml
+  - monitoring.yaml
+  - storage.yaml
+  - tools.yaml
+  - velero.yaml
