@@ -1,0 +1,28 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: podinfo
+  namespace: default
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-production"
+    external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_DOMAIN}"
+    external-dns/is-public: "true"
+    hajimari.io/appName: "podinfo"
+    hajimari.io/enable: "true"
+    hajimari.io/icon: "google-podcast"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`podinfo.${SECRET_DOMAIN}`)
+      priority: 10
+      services:
+        - name: podinfo
+          port: 9898
+      middlewares:
+        - name: networking-traefik-forward-auth@kubernetescrd
+  tls:
+    secretName: podinfo-tls-secret
+    certResolver: default
