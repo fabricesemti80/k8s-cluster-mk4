@@ -20,6 +20,19 @@ spec:
     - name: cert-manager
       namespace: cert-manager
   values:
+    #? ----- addition start ---->
+    env:
+      - name: CF_API_EMAIL
+        valueFrom:
+          secretKeyRef:
+            name: cloudflare-creds
+            key: email
+      - name: CF_API_KEY
+        valueFrom:
+          secretKeyRef:
+            name: cloudflare-creds
+            key: api-key
+    #? <---- addition end ------
     image:
       name: ghcr.io/k8s-at-home/traefik
     deployment:
@@ -56,6 +69,14 @@ spec:
       - "--providers.kubernetesingress.ingressendpoint.ip=${METALLB_TRAEFIK_ADDR}"
       - "--providers.kubernetesingress.allowexternalnameservices=true"
       - "--providers.kubernetescrd.allowexternalnameservices=true"
+      #? ----- addition start ---->
+      - "--certificatesresolvers.default.acme.email=${SECRET_CLOUDFLARE_EMAIL}"
+      - "--certificatesresolvers.default.acme.storage=/data/acme.json"
+      - "--certificatesresolvers.default.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
+      - "--certificatesResolvers.default.acme.dnschallenge=true"
+      - "--certificatesResolvers.default.acme.dnschallenge.provider=cloudflare"
+      - "--accesslog=true"
+      #? <---- addition end ------
     ports:
       traefik:
         expose: true

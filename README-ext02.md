@@ -41,6 +41,10 @@ Create the structure as per the folders.
 
 Once this is done, the ingresses should ask for Google authentication.
 
+### Traefik
+
+The vanila Traefik also requires some modification
+
 
 ### Cloudflare DDNS
 
