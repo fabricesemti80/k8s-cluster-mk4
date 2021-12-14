@@ -93,7 +93,7 @@ spec:
         storage:
           volumeClaimTemplate:
             spec:
-              storageClassName: "rook-cephfs"
+              storageClassName: "hdd-nfs-storage"
               resources:
                 requests:
                   storage: 1Gi
@@ -207,7 +207,7 @@ spec:
         storageSpec:
           volumeClaimTemplate:
             spec:
-              storageClassName: "rook-cephfs"
+              storageClassName: "hdd-nfs-storage"
               resources:
                 requests:
                   storage: 10Gi
