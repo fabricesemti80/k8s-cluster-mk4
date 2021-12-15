@@ -47,7 +47,7 @@ spec:
       supplementalGroups:
         - 100
     metrics:
-      enabled: false # true #FIXME: make this true
+      enabled: true
       serviceMonitor:
         interval: 3m
         scrapeTimeout: 1m
