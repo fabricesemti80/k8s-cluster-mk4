@@ -48,20 +48,21 @@ spec:
           - hosts:
               - "qb-vpn.${SECRET_DOMAIN}"
             secretName: "qb-vpn-tls"
-      # api:
-      #   enabled: true
-      #   ingressClassName: "traefik"
-      #   annotations:
-      #     traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
-      #     traefik.ingress.kubernetes.io/router.middlewares: "networking-rfc1918@kubernetescrd"
-      #   hosts:
-      #     - host: "qb-vpn.${SECRET_DOMAIN}"
-      #       paths:
-      #         - path: /api
-      #           pathType: Prefix
-      #   tls:
-      #     - hosts:
-      #         - "qb-vpn.${SECRET_DOMAIN}"
+      #? provisional >>>
+      api:
+        enabled: true
+        ingressClassName: "traefik"
+        annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          traefik.ingress.kubernetes.io/router.middlewares: "networking-rfc1918@kubernetescrd"
+        hosts:
+          - host: "qb-vpn.${SECRET_DOMAIN}"
+            paths:
+              - path: /api
+                pathType: Prefix
+        tls:
+          - hosts:
+              - "qb-vpn.${SECRET_DOMAIN}"
     metrics:
       enabled: true
       exporter:
@@ -76,6 +77,7 @@ spec:
         scrapeTimeout: 10s
       prometheusRule:
         enabled: true
+    #? provisional <<<
     podSecurityContext:
       supplementalGroups:
         - 100
