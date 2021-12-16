@@ -61,7 +61,7 @@ spec:
                 alertname: Watchdog
             - receiver: "discord"
               match_re:
-                severity: critical
+                severity: info # critical
               continue: true
             # - receiver: "nodered" #TODO: I do not have this
             #   match:
