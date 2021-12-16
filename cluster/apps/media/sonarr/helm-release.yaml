@@ -90,6 +90,7 @@ spec:
         mountPath: /media
     podAnnotations:
       backup.velero.io/backup-volumes: config
+      pre.hook.backup.velero.io/on-error: continue
       pre.hook.backup.velero.io/container: fsfreeze
       pre.hook.backup.velero.io/command: '["/sbin/fsfreeze", "--freeze", "/config"]'
       post.hook.backup.velero.io/container: fsfreeze
