@@ -57,19 +57,19 @@ spec:
       config:
         enabled: true
         existingClaim: jellyfin-config-v1
-      transcode:
-        enabled: true
-        emptyDir:
-          enabled: true
-          medium: "Memory"
-      # media:
+      # transcode:
       #   enabled: true
-      #   type: custom
-      #   volumeSpec:
-      #     nfs:
-      #       server: "${NAS_SERVER}"
-      #       path: "${NAS_PATH_MEDIA}"
-      #   mountPath: /media
+      #   emptyDir:
+      #     enabled: true
+      #     medium: "Memory"
+      media:
+        enabled: true
+        type: custom
+        volumeSpec:
+          nfs:
+            server: "${NAS_SERVER}"
+            path: "${NAS_PATH_MEDIA}"
+        mountPath: /media
     # additionalVolumeMounts:
     #   - name: media-omv
     #     mountPath: "/media-omv"
