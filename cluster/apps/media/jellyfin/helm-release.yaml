@@ -5,63 +5,65 @@ metadata:
   name: jellyfin
   namespace: media
 spec:
-  interval: 5m
   chart:
     spec:
-      # renovate: registryUrl=https://k8s-at-home.com/charts/
-      chart: jellyfin
-      version: 9.2.0
       sourceRef:
-        kind: HelmRepository
         name: k8s-at-home-charts
         namespace: flux-system
+        kind: HelmRepository
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: jellyfin
+      version: 9.1.0
+  interval: 5m
   values:
     image:
-      repository: jellyfin/jellyfin
-      tag: 10.7.5
+      repository: ghcr.io/k8s-at-home/jellyfin
+      tag: v10.7.7
     env:
       TZ: "Europe/London"
-      JELLYFIN_CACHE_DIR: "/config/cache"
-    podSecurityContext:
-      supplementalGroups:
-        - 44
-        - 109
-        - 100
-    # service:
-    #   enabled: true
-    #   type: LoadBalancer
-    #   externalIPs:
-    #   - "${SVC_JELLYFIN_ADDRESS}"
-    #   externalTrafficPolicy: Local
+      JELLYFIN_CACHE_DIR: /config/cache
     ingress:
+      main:
+        enabled: true
+        ingressClassName: "traefik"
+        annotations:
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "download-box"
+          cert-manager.io/cluster-issuer: "letsencrypt-production" # needs cert
+          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          traefik.ingress.kubernetes.io/router.middlewares: networking-traefik-forward-auth@kubernetescrd # needs oauth
+          external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_DOMAIN}"
+          external-dns/is-public: "true"
+        hosts:
+          - host: "jellyfin.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - "jellyfin.${SECRET_DOMAIN}"
+            secretName: jellyfin-tls
+    podSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1001
+      fsGroup: 1001
+    metrics:
       enabled: true
-      ingressClassName: "traefik"
-      annotations:
-        hajimari.io/enable: "true"
-        hajimari.io/icon: "plex"
-        cert-manager.io/cluster-issuer: "letsencrypt-production" # needs cert
-        traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
-        traefik.ingress.kubernetes.io/router.middlewares: networking-traefik-forward-auth@kubernetescrd # needs oauth
-        external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_DOMAIN}"
-        external-dns/is-public: "true"
-      hosts:
-        - host: "jellyfin.${SECRET_DOMAIN}"
-          paths:
-            - path: /
-              pathType: Prefix
-      tls:
-        - hosts:
-            - "jellyfin.${SECRET_DOMAIN}"
-          secretName: "jellyfin-tls"
+      serviceMonitor:
+        interval: 3m
+        scrapeTimeout: 1m
+      prometheusRule:
+        enabled: true
     persistence:
       config:
         enabled: true
+        # type: custom
         existingClaim: jellyfin-config-v1
-      # transcode:
-      #   enabled: true
-      #   emptyDir:
-      #     enabled: true
-      #     medium: "Memory"
+        # volumeSpec:
+        #   nfs:
+        #     server: "gypsy"
+        #     path: /pool/storage-0/media/config/jellyfin
+        # mountPath: /config
       media:
         enabled: true
         type: custom
@@ -70,14 +72,6 @@ spec:
             server: "${NAS_SERVER}"
             path: "${NAS_PATH_MEDIA}"
         mountPath: /media
-    # additionalVolumeMounts:
-    #   - name: media-omv
-    #     mountPath: "/media-omv"
-    #     readOnly: true
-    # additionalVolumes:
-    #   - name: media-rocinante
-    #     persistentVolumeClaim:
-    #       claimName: nfs-media-omv-pvc
     resources:
       requests:
         memory: 1000Mi
