@@ -7,3 +7,4 @@ resources:
   - overseerr
   - radarr
   - bazarr
+  - jellyfin
