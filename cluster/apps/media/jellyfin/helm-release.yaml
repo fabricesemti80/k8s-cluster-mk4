@@ -35,8 +35,15 @@ spec:
     #   externalTrafficPolicy: Local
     ingress:
       enabled: true
+      ingressClassName: "traefik"
       annotations:
-        kubernetes.io/ingress.class: "nginx"
+        hajimari.io/enable: "true"
+        hajimari.io/icon: "plex"
+        cert-manager.io/cluster-issuer: "letsencrypt-production" # needs cert
+        traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+        traefik.ingress.kubernetes.io/router.middlewares: networking-traefik-forward-auth@kubernetescrd # needs oauth
+        external-dns.alpha.kubernetes.io/target: "ipv4.${SECRET_DOMAIN}"
+        external-dns/is-public: "true"
       hosts:
         - host: "jellyfin.${SECRET_DOMAIN}"
           paths:
