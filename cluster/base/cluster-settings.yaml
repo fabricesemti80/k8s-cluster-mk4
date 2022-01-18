@@ -6,6 +6,7 @@ metadata:
   namespace: flux-system
 data:
   # For MetalLB
+  GATEWAY_ADDRESS: 192.168.1.1
   METALLB_LB_RANGE: 192.168.1.200-192.168.1.250
   METALLB_TRAEFIK_ADDR: 192.168.1.200
   # NAS-related settings

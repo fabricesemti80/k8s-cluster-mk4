@@ -8,3 +8,7 @@ creation_rules:
     encrypted_regex: "^(data|stringData)$"
     age: >-
       age1jf96qp7qw038fej7rryvp04qgfakxcv5gg8ew4v5jc2d0xwryvusare09d
+  - path_regex: hack/.*\.ya?ml
+    encrypted_regex: "^(data|stringData)$"
+    age: >-
+      age1jf96qp7qw038fej7rryvp04qgfakxcv5gg8ew4v5jc2d0xwryvusare09d

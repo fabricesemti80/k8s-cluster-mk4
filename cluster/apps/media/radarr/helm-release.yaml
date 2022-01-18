@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: radarr
-      version: 15.1.0
+      version: 15.2.0
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home-charts
@@ -47,7 +47,7 @@ spec:
       supplementalGroups:
         - 100
     metrics:
-      enabled: false # true #FIXME: make this true
+      enabled: true
       serviceMonitor:
         interval: 3m
         scrapeTimeout: 1m
@@ -56,7 +56,7 @@ spec:
       exporter:
         image:
           repository: ghcr.io/onedr0p/exportarr
-          tag: v0.6.1
+          tag: v0.6.2
         env:
           port: 9794
           additionalMetrics: true
@@ -75,6 +75,7 @@ spec:
         mountPath: /media
     podAnnotations:
       backup.velero.io/backup-volumes: config
+      pre.hook.backup.velero.io/on-error: continue
       pre.hook.backup.velero.io/container: fsfreeze
       pre.hook.backup.velero.io/command: '["/sbin/fsfreeze", "--freeze", "/config"]'
       post.hook.backup.velero.io/container: fsfreeze

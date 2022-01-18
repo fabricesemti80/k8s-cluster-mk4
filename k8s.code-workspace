@@ -2,6 +2,9 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "../.config/sops/age"
 		}
 	],
 	"settings": {
